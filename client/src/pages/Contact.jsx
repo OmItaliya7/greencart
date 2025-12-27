@@ -52,7 +52,7 @@ const Contact = () => {
             <strong>📧 Email:</strong> support@greencart.com
           </p>
           <p>
-            <strong>📞 Phone:</strong> +91 91069 41599
+            <strong>📞 Phone:</strong> +91 9473476124
           </p>
           <p>
             <strong>🕒 Working Hours:</strong> Mon – Sat (9:00 AM – 6:00 PM)
