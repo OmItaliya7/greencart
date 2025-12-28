@@ -1,53 +1,88 @@
+
 import React from 'react';
 import { assets } from '../assets/assets';
 import { useAppContext } from '../context/AppContext';
 
+const ProductCard = ({ product }) => {
+  const { currency, addToCart, removeFromCart, cartItems, navigate } =
+    useAppContext();
 
-const ProductCard = ({product}) => {
-    
-    const {currency, addToCart, removeFromCart,cartItems, navigate} = useAppContext()
+  if (!product) return null;
 
-    return product && (
-        <div onClick={()=> {navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)}} className="border border-gray-500/20 rounded-md md:px-4 px-3 py-2 bg-white min-w-56 max-w-56 w-full">
-            <div className="group cursor-pointer flex items-center justify-center px-2">
-                <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={product.image[0]} alt={product.name} />
-            </div>
-            <div className="text-gray-500/60 text-sm">
-                <p>{product.category}</p>
-                <p className="text-gray-700 font-medium text-lg truncate w-full">{product.name}</p>
-                <div className="flex items-center gap-0.5">
-                    {Array(5).fill('').map((_, i) => (
-                            <img key={i} className='md:w-3.5 w3' src={i < 4 ?assets.star_icon 
-                            : assets.star_dull_icon} alt='' />
-                    ))}
-                    <p>({4})</p>
-                </div>
-                <div className="flex items-end justify-between mt-3">
-                    <p className="md:text-xl text-base font-medium text-[var(--color-primary)]">
-                        {currency}{product.offerPrice}{" "} <span className="text-gray-500/60 md:text-sm text-xs line-through">{currency}{product.price}</span>
-                    </p>
-                    <div onClick={(e)=>e.stopPropagation()} className="text-[var(--color-primary)]">
-                            {!cartItems[product._id] ? (
-                                <button className="flex items-center justify-center gap-1 md:w-[80px] w-[64px] h-[34px] rounded text-[var(--color-primary)] font-medium" cursor-pointer onClick={() => addToCart(product._id)} style={{backgroundColor: 'rgba(79,191,139,0.1)', border: '1px solid rgba(79,191,139,0.4)'}}>
-                                <img src={assets.cart_icon} alt="cart_icon" />
-                                Add
-                            </button>
-                        ) : (
-                            <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
-                                <button onClick={() => {removeFromCart(product._id)}} className="cursor-pointer text-md px-2 h-full" >
-                                    -
-                                </button>
-                                <span className="w-5 text-center">{cartItems[product._id]}</span>
-                                <button onClick={() => {addToCart(product._id)}} className="cursor-pointer text-md px-2 h-full" >
-                                    +
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+  return (
+    <div
+      onClick={() => {
+        navigate(`/products/${product.category.toLowerCase()}/${product._id}`);
+        window.scrollTo(0, 0);
+      }}
+      className="border border-gray-300/30 rounded-lg p-3 bg-white flex flex-col justify-between h-full"
+    >
+      
+      <div className="flex items-center justify-center h-36 mb-2">
+        <img
+          src={product.image[0]}
+          alt={product.name}
+          className="max-h-full object-contain transition group-hover:scale-105"
+        />
+      </div>
+
+      
+      <div className="flex flex-col flex-1 justify-between text-gray-500/70 text-sm">
+        <div>
+          <p className="text-xs">{product.category}</p>
+          <p className="text-gray-800 font-medium text-base truncate">
+            {product.name}
+          </p>
+
+          
+          <div className="flex items-center gap-0.5 mt-1">
+            {Array(5)
+              .fill('')
+              .map((_, i) => (
+                <img
+                  key={i}
+                  className="w-3.5"
+                  src={i < 4 ? assets.star_icon : assets.star_dull_icon}
+                  alt=""
+                />
+              ))}
+            <span className="text-xs">(4)</span>
+          </div>
         </div>
-    );
+
+        
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="flex items-center justify-between mt-3"
+        >
+          <p className="font-semibold text-[var(--color-primary)]">
+            {currency}
+            {product.offerPrice}{' '}
+            <span className="line-through text-gray-400 text-xs ml-1">
+              {currency}
+              {product.price}
+            </span>
+          </p>
+
+          {!cartItems[product._id] ? (
+            <button
+              onClick={() => addToCart(product._id)}
+              className="flex items-center gap-1 px-2 py-1 text-xs border border-[var(--color-primary)] text-[var(--color-primary)] rounded"
+            >
+              <img src={assets.cart_icon} alt="cart" className="w-4 h-4" />
+              Add
+            </button>
+          ) : (
+            <div className="flex items-center gap-2 px-2 py-1 border rounded text-sm">
+              <button onClick={() => removeFromCart(product._id)}>-</button>
+              <span>{cartItems[product._id]}</span>
+              <button onClick={() => addToCart(product._id)}>+</button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ProductCard;
