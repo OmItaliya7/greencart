@@ -1,5 +1,7 @@
 # 🛒 Greencart – Full Stack E-Commerce Web Application
 
+Live Demo: https://greencart-flax-sigma.vercel.app/
+
 Greencart is a full-stack MERN e-commerce web application that allows users to browse products, manage carts, place orders, and make online payments. It also includes a seller dashboard for product and order management.
 
 ---
